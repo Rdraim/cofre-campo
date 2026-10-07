@@ -47,7 +47,7 @@ These standalone modules are inspired by work on Nexus, Rodrigo Rodrigues's inde
 
 Strict parsing, authenticated rotation checks and defensive key copying.
 
-[Contributing](CONTRIBUTING.md) · [Security](SECURITY.md)
+[Contributing](CONTRIBUTING.en-US.md) · [Security](SECURITY.en-US.md)
 
 MIT © Rodrigo Rodrigues
 
