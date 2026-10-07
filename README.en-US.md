@@ -15,7 +15,7 @@ npm test
 node tools/check-public-content.mjs
 ```
 
-These imports work from the cloned repository root. To use the module in another project, install a pinned Git tag or copy the module while retaining the MIT license. This documentation does not claim an npm registry release.
+These imports work from the cloned repository root. To use the module in another project, install a pinned Git tag (v1.2.0) or copy the module while retaining the MIT license. This documentation does not claim an npm registry release.
 
 ```js
 import { Cofre, gerarChave } from './src/index.js';
@@ -39,7 +39,7 @@ Keys are 32-byte Buffers or canonical unpadded base64url strings. Tokens `c1.id.
 
 These standalone modules are inspired by work on Nexus, Rodrigo Rodrigues's independent project. They contain no private database, deployment configuration, logs, credentials or user records. Coordinated maintenance means reviewing related changes in the same release cycle, not automatically copying private source files.
 
-## Version 1.1.0
+## Security and compatibility
 
 Strict parsing, authenticated rotation checks and defensive key copying.
 
