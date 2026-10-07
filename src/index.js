@@ -38,6 +38,11 @@ const normalizarChave = (v) => {
   return buf;
 };
 const idValido = (id) => /^[A-Za-z0-9_-]{1,32}$/.test(id);
+const aadDe = (id, contexto) => {
+  if (typeof contexto !== 'string' || Buffer.byteLength(contexto, 'utf8') > 1024) throw new TypeError('contexto precisa ser string de até 1024 bytes');
+  // Contexto vazio conserva os tokens anteriores; o contexto nunca vai no token.
+  return Buffer.from(`${VERSAO}.${id}${contexto ? '\0' + contexto : ''}`, 'utf8');
+};
 
 export class Cofre {
   /**
@@ -56,10 +61,10 @@ export class Cofre {
   }
 
   /** Cifra um texto. Devolve "c1.<idChave>.<base64url(iv|tag|cifra)>". */
-  cifrar(texto) {
+  cifrar(texto, { contexto = '' } = {}) {
     const chave = this.chaves[this.atual];
     const iv = randomBytes(12);
-    const aad = Buffer.from(`${VERSAO}.${this.atual}`);
+    const aad = aadDe(this.atual, contexto);
     const cipher = createCipheriv('aes-256-gcm', chave, iv);
     cipher.setAAD(aad);
     const dados = Buffer.concat([cipher.update(String(texto), 'utf8'), cipher.final()]);
@@ -68,7 +73,7 @@ export class Cofre {
   }
 
   /** Decifra um token. Lança se foi adulterado ou se a chave não está presente. */
-  decifrar(token) {
+  decifrar(token, { contexto = '' } = {}) {
     const { id, bruto } = partesToken(token);
     const chave = Object.hasOwn(this.chaves, id) ? this.chaves[id] : null;
     if (!chave) throw new Error(`chave "${id}" não disponível para decifrar`);
@@ -76,16 +81,16 @@ export class Cofre {
     const tag = bruto.subarray(12, 28);
     const dados = bruto.subarray(28);
     const decipher = createDecipheriv('aes-256-gcm', chave, iv);
-    decipher.setAAD(Buffer.from(`${VERSAO}.${id}`));
+    decipher.setAAD(aadDe(id, contexto));
     decipher.setAuthTag(tag);
     return Buffer.concat([decipher.update(dados), decipher.final()]).toString('utf8');
   }
 
   /** True se o token foi cifrado com uma chave diferente da atual (candidato a rotação). */
-  precisaRotacionar(token) { const { id } = partesToken(token); this.decifrar(token); return id !== this.atual; }
+  precisaRotacionar(token, opcoes) { const { id } = partesToken(token); this.decifrar(token, opcoes); return id !== this.atual; }
 
   /** Decifra e cifra de novo com a chave atual (rotação de chave). */
-  reencriptar(token) { return this.cifrar(this.decifrar(token)); }
+  reencriptar(token, opcoes) { return this.cifrar(this.decifrar(token, opcoes), opcoes); }
 }
 
 export default Cofre;
