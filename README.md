@@ -2,13 +2,13 @@
 
 [English (United States)](README.en-US.md) · [Apoio voluntário](SUPPORT.md)
 
-## Revisão 1.1.0
+## Segurança e compatibilidade
 
 Parsing estrito, autenticação na checagem de rotação e cópia defensiva da chave.
 
-Chaves: Buffer de 32 bytes ou base64url canônico sem padding. Tokens `c1.id.payload` têm IV aleatório de 12 bytes, tag de 16 bytes e cabeçalho autenticado. Tokens malformados/adulterados lançam erro; `precisaRotacionar` também autentica. Não use para armazenar senha de login (use hashing apropriado). Guarde e faça backup das chaves fora do repositório. Não impede replay nem troca de ciphertext entre registros; a aplicação deve controlar contexto e acesso. Não é compatível automaticamente com o formato de cifra do Nexus.
+Chaves: Buffer de 32 bytes ou base64url canônico sem padding. Tokens `c1.id.payload` têm IV aleatório de 12 bytes, tag de 16 bytes e cabeçalho autenticado. Tokens malformados/adulterados lançam erro; `precisaRotacionar` também autentica. Não use para armazenar senha de login (use hashing apropriado). Guarde e faça backup das chaves fora do repositório. Não impede replay; sem contexto explícito também não impede troca de ciphertext entre registros. A aplicação deve controlar contexto e acesso. Não é compatível automaticamente com o formato de cifra do Nexus.
 
-Baixe pelo GitHub; não é necessário instalar um pacote homônimo do npm. Para consumir em outro projeto, use uma revisão Git fixada (tag v1.1.0) ou copie o módulo e preserve a licença. Os exemplos abaixo usam importação local após o clone. Node.js 22 ou superior para os testes.
+Baixe pelo GitHub; não é necessário instalar um pacote homônimo do npm. Para consumir em outro projeto, use uma revisão Git fixada (tag v1.2.0) ou copie o módulo e preserve a licença. Os exemplos abaixo usam importação local após o clone. Node.js 22 ou superior para os testes.
 
 Cifra de **campo em repouso** com **AES-256-GCM** e **rotação de chave**, usando
 só `node:crypto`. Para guardar um segredo (token, chave de API, dado sensível)
@@ -80,3 +80,10 @@ Código independente inspirado em problemas resolvidos no Nexus, projeto de Rodr
 [Como contribuir](CONTRIBUTING.md) · [Segurança](SECURITY.md) · [Apoio voluntário](SUPPORT.md)
 
 Referência oficial: https://nodejs.org/api/crypto.html
+
+
+## Uso prático — 1.2.0
+
+Os métodos aceitam `{ contexto }` opcional, string estável de até 1024 bytes, autenticada via AAD. Decifrar/rotacionar exige o mesmo contexto. Contexto vazio preserva tokens anteriores; não evita replay no mesmo contexto. Não contém o contexto no token.
+
+Exemplo executável com dados sintéticos: `node examples/uso.mjs`.

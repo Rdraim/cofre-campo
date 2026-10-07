@@ -15,7 +15,7 @@ npm test
 node tools/check-public-content.mjs
 ```
 
-These imports work from the cloned repository root. To use the module in another project, install a pinned Git tag or copy the module while retaining the MIT license. This documentation does not claim an npm registry release.
+These imports work from the cloned repository root. To use the module in another project, install a pinned Git tag (v1.2.0) or copy the module while retaining the MIT license. This documentation does not claim an npm registry release.
 
 ```js
 import { Cofre, gerarChave } from './src/index.js';
@@ -33,13 +33,13 @@ Public function and option names remain in Portuguese for compatibility.
 
 ## Behavior and limits
 
-Keys are 32-byte Buffers or canonical unpadded base64url strings. Tokens `c1.id.payload` contain a random 12-byte IV, a 16-byte tag and an authenticated header. Malformed or tampered tokens throw; `precisaRotacionar` also authenticates. Do not use reversible encryption for login passwords. Store and back up keys outside the repository. This format does not prevent replay or ciphertext substitution across records; enforce application context and access controls. It is not automatically compatible with the Nexus encryption format.
+Keys are 32-byte Buffers or canonical unpadded base64url strings. Tokens `c1.id.payload` contain a random 12-byte IV, a 16-byte tag and an authenticated header. Malformed or tampered tokens throw; `precisaRotacionar` also authenticates. Do not use reversible encryption for login passwords. Store and back up keys outside the repository. This format does not prevent replay; without an explicit context it also does not prevent ciphertext substitution across records. Enforce application context and access controls. It is not automatically compatible with the Nexus encryption format.
 
 ## Maintenance
 
 These standalone modules are inspired by work on Nexus, Rodrigo Rodrigues's independent project. They contain no private database, deployment configuration, logs, credentials or user records. Coordinated maintenance means reviewing related changes in the same release cycle, not automatically copying private source files.
 
-## Version 1.1.0
+## Security and compatibility
 
 Strict parsing, authenticated rotation checks and defensive key copying.
 
@@ -48,3 +48,10 @@ Strict parsing, authenticated rotation checks and defensive key copying.
 MIT © Rodrigo Rodrigues
 
 Official reference: https://nodejs.org/api/crypto.html
+
+
+## Practical use — 1.2.0
+
+Methods accept optional `{ contexto }`, a stable string up to 1024 bytes authenticated with AAD. Decryption/rotation requires the same context. An empty context preserves older tokens; this does not prevent replay within the same context. The token does not contain the context.
+
+Runnable example with synthetic data: `node examples/uso.mjs`.
