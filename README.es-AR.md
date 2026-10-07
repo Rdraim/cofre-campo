@@ -6,6 +6,10 @@
 
 # cofre-campo
 
+<!-- public-badges:start -->
+[![license](assets/support/badge-license.svg)](LICENSE) [![CI](assets/support/badge-ci.svg)](https://github.com/Rdraim/cofre-campo/actions) [![release](assets/support/badge-release.svg)](https://github.com/Rdraim/cofre-campo/releases) [![Git](assets/support/badge-git.svg)](https://github.com/Rdraim/cofre-campo/commits/main)
+<!-- public-badges:end -->
+
 Cifrado autenticado de campos con AES-256-GCM e identificadores de clave para rotación gradual. Solo Node.js.
 
 ## Empezá acá

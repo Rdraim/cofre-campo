@@ -6,6 +6,10 @@
 
 # cofre-campo
 
+<!-- public-badges:start -->
+[![license](assets/support/badge-license.svg)](LICENSE) [![CI](assets/support/badge-ci.svg)](https://github.com/Rdraim/cofre-campo/actions) [![release](assets/support/badge-release.svg)](https://github.com/Rdraim/cofre-campo/releases) [![Git](assets/support/badge-git.svg)](https://github.com/Rdraim/cofre-campo/commits/main)
+<!-- public-badges:end -->
+
 ## Segurança e compatibilidade
 
 Parsing estrito, autenticação na checagem de rotação e cópia defensiva da chave.
