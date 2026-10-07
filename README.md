@@ -12,7 +12,7 @@ Parsing estrito, autenticação na checagem de rotação e cópia defensiva da c
 
 Chaves: Buffer de 32 bytes ou base64url canônico sem padding. Tokens `c1.id.payload` têm IV aleatório de 12 bytes, tag de 16 bytes e cabeçalho autenticado. Tokens malformados/adulterados lançam erro; `precisaRotacionar` também autentica. Não use para armazenar senha de login (use hashing apropriado). Guarde e faça backup das chaves fora do repositório. Não impede replay; sem contexto explícito também não impede troca de ciphertext entre registros. A aplicação deve controlar contexto e acesso. Não é compatível automaticamente com o formato de cifra do Nexus.
 
-Baixe pelo GitHub; não é necessário instalar um pacote homônimo do npm. Para consumir em outro projeto, use uma revisão Git fixada (tag v1.2.0) ou copie o módulo e preserve a licença. Os exemplos abaixo usam importação local após o clone. Node.js 22 ou superior para os testes.
+Baixe pelo GitHub; não é necessário instalar um pacote homônimo do npm. Para consumir em outro projeto, use uma revisão Git fixada (tag v1.2.1) ou copie o módulo e preserve a licença. Os exemplos abaixo usam importação local após o clone. Node.js 22 ou superior para os testes.
 
 Cifra de **campo em repouso** com **AES-256-GCM** e **rotação de chave**, usando
 só `node:crypto`. Para guardar um segredo (token, chave de API, dado sensível)
@@ -25,7 +25,7 @@ dado foi adulterado. O token carrega o id da chave usada, então você pode
 ## Instalação
 
 ```bash
-git clone https://github.com/techrodrigo21-ux/cofre-campo.git
+git clone https://github.com/Rdraim/cofre-campo.git
 cd cofre-campo
 npm test
 ```
@@ -108,7 +108,7 @@ Sou **Rodrigo Rodrigues**, criador do **Nexus** e destes projetos de código abe
 
 <p>
   <a href="#apoie-com-pix"><img src="assets/support/pix-pt-br.svg" width="190" height="44" alt="Apoiar com Pix"></a>
-  <a href="https://github.com/techrodrigo21-ux/cofre-campo/issues/new?title=Coment%C3%A1rio%3A%20este%20projeto%20me%20ajudou"><img src="assets/support/comment-pt-br.svg" width="210" height="44" alt="Deixar um comentário"></a>
+  <a href="https://github.com/Rdraim/cofre-campo/issues/new?title=Coment%C3%A1rio%3A%20este%20projeto%20me%20ajudou"><img src="assets/support/comment-pt-br.svg" width="210" height="44" alt="Deixar um comentário"></a>
 </p>
 
 ### Apoie com Pix
@@ -129,7 +129,7 @@ Você também pode apoiar compartilhando o projeto, relatando um problema, melho
 
 ### Seu comentário também faz diferença
 
-[Conte como o projeto te ajudou](https://github.com/techrodrigo21-ux/cofre-campo/issues/new?title=Coment%C3%A1rio%3A%20este%20projeto%20me%20ajudou). Vou gostar de saber o que você criou, o que aprendeu e o que poderia ficar mais claro para quem está começando.
+[Conte como o projeto te ajudou](https://github.com/Rdraim/cofre-campo/issues/new?title=Coment%C3%A1rio%3A%20este%20projeto%20me%20ajudou). Vou gostar de saber o que você criou, o que aprendeu e o que poderia ficar mais claro para quem está começando.
 
 O comentário é bem-vindo com ou sem doação. Preserve sua privacidade: não publique comprovantes, dados pessoais, credenciais ou informações de usuários nas Issues.
 

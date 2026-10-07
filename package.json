@@ -1,6 +1,6 @@
 {
   "name": "cofre-campo",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Authenticated field encryption using AES-256-GCM and key IDs for gradual rotation. Node.js only.",
   "type": "module",
   "main": "src/index.js",
@@ -31,6 +31,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/techrodrigo21-ux/cofre-campo.git"
+    "url": "git+https://github.com/Rdraim/cofre-campo.git"
   }
 }
