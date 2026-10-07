@@ -14,13 +14,26 @@ import { createCipheriv, createDecipheriv, randomBytes } from 'node:crypto';
 
 const VERSAO = 'c1';
 const b64 = (buf) => Buffer.from(buf).toString('base64url');
-const deB64 = (s) => Buffer.from(s, 'base64url');
+const deB64 = (s) => {
+  if (typeof s !== 'string' || !/^[A-Za-z0-9_-]+$/.test(s)) throw new Error('base64url inválido');
+  const buf = Buffer.from(s, 'base64url');
+  if (b64(buf) !== s) throw new Error('base64url não canônico');
+  return buf;
+};
+const partesToken = (token) => {
+  if (typeof token !== 'string') throw new Error('token inválido');
+  const partes = token.split('.');
+  if (partes.length !== 3 || partes[0] !== VERSAO || !idValido(partes[1])) throw new Error('token inválido');
+  const bruto = deB64(partes[2]);
+  if (bruto.length < 28) throw new Error('token truncado');
+  return { id: partes[1], bruto };
+};
 
 /** Gera uma chave AES-256 (32 bytes) em base64url, pronta para a variável de ambiente. */
 export function gerarChave() { return b64(randomBytes(32)); }
 
 const normalizarChave = (v) => {
-  const buf = Buffer.isBuffer(v) ? v : deB64(String(v));
+  const buf = Buffer.isBuffer(v) ? Buffer.from(v) : deB64(v);
   if (buf.length !== 32) throw new Error('chave AES-256 precisa ter 32 bytes');
   return buf;
 };
@@ -34,7 +47,7 @@ export class Cofre {
    */
   constructor({ chaves, atual } = {}) {
     if (!chaves || !atual) throw new Error('informe { chaves, atual }');
-    if (!idValido(atual) || !chaves[atual]) throw new Error('chave "atual" ausente ou id inválido');
+    if (!idValido(atual) || !Object.hasOwn(chaves, atual)) throw new Error('chave "atual" ausente ou id inválido');
     this.chaves = Object.fromEntries(Object.entries(chaves).map(([id, k]) => {
       if (!idValido(id)) throw new Error(`id de chave inválido: ${id}`);
       return [id, normalizarChave(k)];
@@ -56,11 +69,9 @@ export class Cofre {
 
   /** Decifra um token. Lança se foi adulterado ou se a chave não está presente. */
   decifrar(token) {
-    const [versao, id, corpo] = String(token).split('.');
-    if (versao !== VERSAO || !id || !corpo) throw new Error('token inválido');
-    const chave = this.chaves[id];
+    const { id, bruto } = partesToken(token);
+    const chave = Object.hasOwn(this.chaves, id) ? this.chaves[id] : null;
     if (!chave) throw new Error(`chave "${id}" não disponível para decifrar`);
-    const bruto = deB64(corpo);
     const iv = bruto.subarray(0, 12);
     const tag = bruto.subarray(12, 28);
     const dados = bruto.subarray(28);
@@ -71,7 +82,7 @@ export class Cofre {
   }
 
   /** True se o token foi cifrado com uma chave diferente da atual (candidato a rotação). */
-  precisaRotacionar(token) { const id = String(token).split('.')[1]; return id !== this.atual; }
+  precisaRotacionar(token) { const { id } = partesToken(token); this.decifrar(token); return id !== this.atual; }
 
   /** Decifra e cifra de novo com a chave atual (rotação de chave). */
   reencriptar(token) { return this.cifrar(this.decifrar(token)); }
