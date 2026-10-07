@@ -87,3 +87,10 @@ Referência oficial: https://nodejs.org/api/crypto.html
 Os métodos aceitam `{ contexto }` opcional, string estável de até 1024 bytes, autenticada via AAD. Decifrar/rotacionar exige o mesmo contexto. Contexto vazio preserva tokens anteriores; não evita replay no mesmo contexto. Não contém o contexto no token.
 
 Exemplo executável com dados sintéticos: `node examples/uso.mjs`.
+
+
+## ☕ Apoie este trabalho
+
+Se este projeto te ajudou, considere me pagar um café. Qualquer valor é bem-vindo, e seu comentário também ajuda.
+
+[![Apoiar com Pix](assets/support/pix-pt-br.svg)](SUPPORT.md)

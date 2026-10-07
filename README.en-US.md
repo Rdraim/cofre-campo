@@ -1,6 +1,6 @@
 # cofre-campo
 
-[Brazilian Portuguese](README.md) · [Voluntary support](SUPPORT.md)
+[Brazilian Portuguese](README.md) · [Voluntary support](SUPPORT.en-US.md)
 
 Authenticated field encryption using AES-256-GCM and key IDs for gradual rotation. Node.js only.
 
@@ -43,7 +43,7 @@ These standalone modules are inspired by work on Nexus, Rodrigo Rodrigues's inde
 
 Strict parsing, authenticated rotation checks and defensive key copying.
 
-[Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Voluntary support](SUPPORT.md)
+[Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Voluntary support](SUPPORT.en-US.md)
 
 MIT © Rodrigo Rodrigues
 
@@ -55,3 +55,10 @@ Official reference: https://nodejs.org/api/crypto.html
 Methods accept optional `{ contexto }`, a stable string up to 1024 bytes authenticated with AAD. Decryption/rotation requires the same context. An empty context preserves older tokens; this does not prevent replay within the same context. The token does not contain the context.
 
 Runnable example with synthetic data: `node examples/uso.mjs`.
+
+
+## ☕ Support this work
+
+If this project helped you, consider buying me a coffee. Any amount is welcome, and sharing your feedback helps too.
+
+[![Support via Pix](assets/support/pix-en-us.svg)](SUPPORT.en-US.md)
