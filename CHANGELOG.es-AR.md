@@ -6,6 +6,10 @@
 
 # 1.2.0 — 2026-10-07
 
+## 1.2.1 — 2026-10-07
+
+Identidad Rdraim, presentación gráfica, revisión de compatibilidad y control de historial más eficiente. API de ejecución conservada.
+
 Los métodos aceptan `{ contexto }`, una cadena estable de hasta 1024 bytes autenticada con AAD. Descifrar o rotar exige el mismo contexto. Un contexto vacío conserva la compatibilidad con tokens anteriores; no impide repetir mensajes dentro del mismo contexto. El token no contiene el contexto.
 
 # 1.1.0 — 2026-10-07
